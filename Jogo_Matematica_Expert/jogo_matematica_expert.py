@@ -18,6 +18,7 @@ class Jogo:
         self.operacao = ""
         self.tela_inicial = ""
         self.caminho_relativo_imagem_inicial = ""
+        self.caminho_relativo_som_fundo = ""
         self.janela = ""
         self.janela_de_inicio_aberta = True
         self.janela_de_jogo_aberta = False
@@ -37,6 +38,10 @@ class Jogo:
         self.botao = Botao(self)
         # Coloca o título do jogo
         pygame.display.set_caption("Matemática Expert")
+        self.caminho_relativo_som_fundo = os.path.join(self.caminho_atual, 'SomFundo_Dark_Electro_Rock.mp3')
+        pygame.mixer.music.load(self.caminho_relativo_som_fundo)
+        pygame.mixer.music.play(loops=-1)
+
 
     def texto_na_tela(self, mensagem, tamanho, x, y): 
         texto = Texto(self)
