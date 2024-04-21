@@ -321,8 +321,8 @@ class Botao:
                 return False
 
 
-
-jogo = Jogo()
-jogo.ajustes_iniciais()
-jogo.janela_inicial_aberta()
-pygame.quit()
+if __name__ == "__main__":
+    jogo = Jogo()
+    jogo.ajustes_iniciais()
+    jogo.janela_inicial_aberta()
+    pygame.quit()
