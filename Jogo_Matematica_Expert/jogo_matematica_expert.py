@@ -1,10 +1,10 @@
+# Bibliotecas Necessárias
 import os
 import pygame
 import random
 
-class Jogo:
-    def __init__(self):
-        # Dimensões de tela de jogo
+class Jogo: # Classe principal do programa
+    def __init__(self): # Definindo todas as variáveis necessárias para esta classe 
         self.largura_tela = 1024
         self.altura_tela = 704
         self.contador_pontos = 0
@@ -30,7 +30,7 @@ class Jogo:
         # Inicia o pygame
         pygame.init()
 
-    def ajustes_iniciais(self):
+    def ajustes_iniciais(self): # Faz os ajustes iniciais do jogo(tela, título, música, etc...)
         self.caminho_relativo_imagem_inicial = os.path.join(self.caminho_atual, "tela_fundo_jogo_matematica.jpg")
         self.tela_inicial = pygame.image.load(self.caminho_relativo_imagem_inicial)
         # Ajusta o modo do tamanho da janela
@@ -43,16 +43,16 @@ class Jogo:
         pygame.mixer.music.play(loops=-1)
 
 
-    def texto_na_tela(self, mensagem, tamanho, x, y): 
+    def texto_na_tela(self, mensagem, tamanho, x, y): # Facilita a chamada da classe "Texto"
         texto = Texto(self)
         texto.formatacao_texto(mensagem, tamanho)
         texto.posicao_texto(x, y)
 
-    def janela_inicial_aberta(self):
+    def janela_inicial_aberta(self): # Janela inicial(Onde é escolhida a dificuldade) 
         self.janela_de_reinicio_aberta = False
-        while self.janela_de_inicio_aberta:
+        while self.janela_de_inicio_aberta: # Loop enquanto a janela estiver aberta
             self.janela.blit(self.tela_inicial, (0, 0))
-            for evento in pygame.event.get():
+            for evento in pygame.event.get(): # Detecta todos os eventos que ocorrem(mouse, teclado, etc...)
                 if evento.type == pygame.QUIT:
                     self.janela_de_inicio_aberta = False
 
@@ -60,19 +60,18 @@ class Jogo:
                     self.janela_jogo_aberta()
                     
             self.mouse = pygame.mouse.get_pos()
-
-            self.texto_na_tela("Olá mundo!!", 60, 380, 250)
+            self.texto_na_tela("Olá, mundo!!", 60, 380, 250)
             self.texto_na_tela("Escolha um dos níveis de dificuldade abaixo: ", 40, 220, 350)
 
             self.botao.cria_botoes_dificuldade()
-            pygame.display.update()
+            pygame.display.update() # Atualiza a tela a cada loop
 
-    def janela_jogo_aberta(self):
+    def janela_jogo_aberta(self): #  Janela onde o usuário joga
         self.janela_de_inicio_aberta = False
         self.janela_de_jogo_aberta = True
-        while self.janela_de_jogo_aberta:
+        while self.janela_de_jogo_aberta: # Loop enquanto a janela estiver aberta
             self.janela.blit(self.tela_inicial, (0, 0))
-            for evento in pygame.event.get():
+            for evento in pygame.event.get(): # Detecta todos os eventos que ocorrem(mouse, teclado, etc...)
                 if evento.type == pygame.QUIT:
                     self.janela_de_jogo_aberta = False
                 
@@ -95,14 +94,14 @@ class Jogo:
             self.texto_na_tela(self.mensagem_pontuacao, 30, 820, 20)
 
             self.botao.cria_botoes_respostas()
-            pygame.display.update()
+            pygame.display.update() # Atualiza a tela a cada loop
 
-    def janela_reiniciar_aberta(self):
+    def janela_reiniciar_aberta(self): # Janela para reiniciar o jogo
         self.janela_de_jogo_aberta = False
         self.janela_de_reinicio_aberta = True
-        while self.janela_de_reinicio_aberta:
+        while self.janela_de_reinicio_aberta: # Loop enquanto a janela estiver aberta
             self.janela.blit(self.tela_inicial, (0, 0))
-            for evento in pygame.event.get():
+            for evento in pygame.event.get(): # Detecta todos os eventos que ocorrem(mouse, teclado, etc...)
                 if evento.type == pygame.QUIT:
                     self.janela_de_reinicio_aberta = False
 
@@ -117,9 +116,9 @@ class Jogo:
             self.texto_na_tela(f"SUA PONTUAÇÃO: {self.contador_pontos}", 40, 220, 350)
             
             self.botao.cria_botao_reiniciar()
-            pygame.display.update()
+            pygame.display.update() # Atualiza a tela a cada loop
 
-    def operacoes_aleatorias(self):
+    def operacoes_aleatorias(self): # Gera operações matemáticas de forma aleátoria
         lista_numeros_grandes = []
         lista_numeros_pequenos = []
         lista_operacoes = ["+", "-", "*", "/"]
@@ -152,7 +151,7 @@ class Jogo:
 
         return resultado
     
-    def lista_possibilidades(self):
+    def lista_possibilidades(self): # Gera alternativas incorretas a partir do resultado correto
         self.resultado = self.operacoes_aleatorias()
         self.numero_pergunta += 1
         modifica_resultado_correto = []
@@ -169,7 +168,7 @@ class Jogo:
         random.shuffle(resultados_possiveis)
         return resultados_possiveis
 
-    def temporizador(self):
+    def temporizador(self): # Temporizador que contabiliza a partir do nível de processamento do pc
         # Mostra o tempo na tela
         self.texto_na_tela(f"TEMPO: {self.tempo}", 30, 465, 600)
         # Contador de tempo para resetar o jogo(equivalente a 1 minuto)
@@ -180,21 +179,21 @@ class Jogo:
     
 
 class Texto:
-    def __init__(self, jogo):
+    def __init__(self, jogo): # Iniciando as variáveis necessárias para essa classe
         self.jogo = jogo
         self.fonte = ""
         self.formatacao = ""
 
-    def formatacao_texto(self, texto, tamanho):
+    def formatacao_texto(self, texto, tamanho): # Formata texto(cor, tamanho e fonte)
         self.fonte = pygame.font.SysFont(None, tamanho)
         self.formatacao = self.fonte.render(texto, True, (255, 255, 255, 255))
 
-    def posicao_texto(self, x, y):
+    def posicao_texto(self, x, y): # Posiciona o texto na tela
         self.jogo.janela.blit(self.formatacao, (x, y))
 
 
 class Botao:
-    def __init__(self, jogo):
+    def __init__(self, jogo): # Iniciando as variáveis necessárias para essa classe
         self.jogo = jogo
         self.botoes_dificuldades = ["FÁCIL", "MÉDIO", "DIFÍCIL", "EXPERT", "NIGHTMARE"]
         self.botoes_possibilidade_respostas = jogo.lista_possibilidades()
@@ -206,7 +205,7 @@ class Botao:
         self.contador_pontos = 0
         self.mensagem_pontuacao = ""
 
-    def desenhar_botao(self, mensagem, x, y, largura, cor):
+    def desenhar_botao(self, mensagem, x, y, largura, cor): # Desenha o botão na tela
         retangulo = pygame.Rect(x, y, largura, 40)
         pygame.draw.rect(self.jogo.janela, cor, retangulo)
         texto = self.fonte.render(mensagem, True, (255, 255, 255))
@@ -214,27 +213,27 @@ class Botao:
         texto_retangulo.center = retangulo.center
         self.jogo.janela.blit(texto, texto_retangulo)
 
-    def cria_botoes_dificuldade(self):
+    def cria_botoes_dificuldade(self): # Desenha os botões de dificuldades com interatividade e larguras proporcionais
         total_botoes_dificuldades = len(self.botoes_dificuldades)
         self.largura_total_botoes_dificuldade = sum([self.fonte.size(texto)[0] for texto in self.botoes_dificuldades]) + (total_botoes_dificuldades - 1) * 20
         posicao_x = self.jogo.largura_tela // 2 - self.largura_total_botoes_dificuldade // 2 -50
         posicao_y = self.jogo.altura_tela // 2 +100
 
-        for texto in self.botoes_dificuldades:
+        for texto in self.botoes_dificuldades: # Define a largura dos botões de acordo com o tamanho do texto
             largura = self.fonte.size(texto)[0] + 20
             self.desenhar_botao(texto, posicao_x, posicao_y, largura, self.botao_cor_normal)
             posicao_x += largura + 20
             
         mouse_x, mouse_y = pygame.mouse.get_pos()
         posicao_x = self.jogo.largura_tela // 2 - self.largura_total_botoes_dificuldade // 2 -50
-        for texto in self.botoes_dificuldades:
+        for texto in self.botoes_dificuldades: # Faz o mesmo que o loop anterior, porém a cor do botão muda com o mouse
             largura = self.fonte.size(texto)[0] + 20
             if posicao_x <= mouse_x <= posicao_x + largura and posicao_y <= mouse_y <= posicao_y + 40:
                 self.desenhar_botao(texto, posicao_x, posicao_y, largura, self.botao_cor_mouse_em_cima)
                 break
             posicao_x += largura + 20
         
-    def verificar_clique_dificuldade(self, evento):
+    def verificar_clique_dificuldade(self, evento): # Captura e verifica o evento de clique do botão
         mouse_x, mouse_y = pygame.mouse.get_pos()
         posicao_x = self.jogo.largura_tela // 2 - self.largura_total_botoes_dificuldade // 2 - 50
         posicao_y = self.jogo.altura_tela // 2 + 100
@@ -242,7 +241,7 @@ class Botao:
         for texto in self.botoes_dificuldades:
             largura = self.fonte.size(texto)[0] + 20
             if posicao_x <= mouse_x <= posicao_x + largura and posicao_y <= mouse_y <= posicao_y + 40:
-                if evento.type == pygame.MOUSEBUTTONDOWN:
+                if evento.type == pygame.MOUSEBUTTONDOWN: # Se o botão do mouse for clicado, será verficado se...
                     if texto == "FÁCIL":
                         self.jogo.tempo = 60
                     elif texto == "MÉDIO":
@@ -259,14 +258,14 @@ class Botao:
                 break
             posicao_x += largura + 20
 
-    def cria_botoes_respostas(self):   
+    def cria_botoes_respostas(self): # Desenha os botões de resposta com interatividade e larguras proporcionais
         total_botoes_respostas = len(self.botoes_possibilidade_respostas)
         # Aqui você pode ajustar para que o tamanho dos botões seja baseado na quantidade de números possíveis
         self.largura_total_botoes_resposta = total_botoes_respostas * (self.fonte.size("0")[0] + 100) + (total_botoes_respostas - 1) * 20
         posicao_x = self.jogo.largura_tela // 2 - self.largura_total_botoes_resposta // 2 - 50
         posicao_y = self.jogo.altura_tela // 2 + 100
 
-        for numero in self.botoes_possibilidade_respostas:
+        for numero in self.botoes_possibilidade_respostas: # Define a largura dos botões de acordo com o tamanho do texto
             texto = str(numero)  # Convertendo o número em string
             largura = self.fonte.size(texto)[0] + 50
             self.desenhar_botao(texto, posicao_x, posicao_y, largura, self.botao_cor_normal)
@@ -274,7 +273,7 @@ class Botao:
             
         mouse_x, mouse_y = pygame.mouse.get_pos()
         posicao_x = self.jogo.largura_tela // 2 - self.largura_total_botoes_resposta // 2 - 50
-        for numero in self.botoes_possibilidade_respostas:
+        for numero in self.botoes_possibilidade_respostas:# O mesmo do loop anterior,porém a cor do botão muda com o mouse
             texto = str(numero)  # Convertendo o número em string
             largura = self.fonte.size(texto)[0] + 50
             if posicao_x <= mouse_x <= posicao_x + largura and posicao_y <= mouse_y <= posicao_y + 40:
@@ -282,7 +281,7 @@ class Botao:
                 break
             posicao_x += largura + 20
 
-    def verificar_clique_resposta(self, evento):
+    def verificar_clique_resposta(self, evento): # Captura e verifica o evento de clique do botão
         mouse_x, mouse_y = pygame.mouse.get_pos()
         posicao_x = self.jogo.largura_tela // 2 - self.largura_total_botoes_resposta // 2 - 50
         posicao_y = self.jogo.altura_tela // 2 + 100
@@ -291,7 +290,7 @@ class Botao:
             texto = str(numero)
             largura = self.fonte.size(texto)[0] + 50
             if posicao_x <= mouse_x <= posicao_x + largura and posicao_y <= mouse_y <= posicao_y + 40:
-                if evento.type == pygame.MOUSEBUTTONDOWN:
+                if evento.type == pygame.MOUSEBUTTONDOWN: # Se o botão do mouse for clicado, será verficado se...
                     if numero == self.jogo.resultado:
                         self.jogo.contador_pontos += 1
                         self.jogo.tempo = self.jogo.tempo_escolhido
@@ -302,7 +301,7 @@ class Botao:
                 break
             posicao_x += largura + 20
 
-    def cria_botao_reiniciar(self):
+    def cria_botao_reiniciar(self): # Desenha os botões de resposta com interatividade e larguras proporcionais
         mouse_x, mouse_y = pygame.mouse.get_pos()
         largura = 230
         posicao_x = self.jogo.largura_tela // 2  -105
@@ -311,13 +310,13 @@ class Botao:
         if posicao_x <= mouse_x <= posicao_x + largura and posicao_y <= mouse_y <= posicao_y + 40:
             self.desenhar_botao("REINICIAR", posicao_x, posicao_y, largura, self.botao_cor_mouse_em_cima)
 
-    def verificar_clique_reiniciar(self, evento):
+    def verificar_clique_reiniciar(self, evento): # Captura e verifica o evento de clique do botão
         mouse_x, mouse_y = pygame.mouse.get_pos()
         largura = 230
         posicao_x = self.jogo.largura_tela // 2  -105
         posicao_y = self.jogo.altura_tela // 2 + 100
         if posicao_x <= mouse_x <= posicao_x + largura and posicao_y <= mouse_y <= posicao_y + 40:
-            if evento.type == pygame.MOUSEBUTTONDOWN:
+            if evento.type == pygame.MOUSEBUTTONDOWN: # Se o botão do mouse for clicado...
                 return False
 
 
